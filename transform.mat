@@ -1,0 +1,68 @@
+%-------------------------------------------------------------------------------
+%	Program:	Problem 15, problem set 2
+%	Author: 	Sebastián Torrente Carrillo
+%
+%	Content: 	Numeric simulation of the transformation:
+%				X(t+1)=X(t+1)+Y(t+1)
+%				Y(t+1)=X(t+1)+2*Y(t+1)
+%				We apply 1000 iterations and we save the data for t=1, 10, 50, 
+%				100, 500, 1000 for graphical representation.
+%
+%-------------------------------------------------------------------------------
+
+%We are going to work with a set of points represented as a matrix, in our case
+%we'll use 20000 points.
+A=[linspace(2,2,201);2:.01:4];
+
+for i=[2.001:0.01:4]
+	C=[linspace(i,i,201);2:.01:4];
+	A=[A,C];
+endfor
+
+B=A;
+
+X=B(1,1:40401);
+Y=B(2,1:40401);
+
+%Uncomment to plot the state of the system at t=0:
+%plot(X,Y,'w.')
+%axis([0,2*pi,0,2*pi])
+%title('T=0')
+
+%Let's iterate:
+for t=[1:1:1000]
+	
+	%We use mod because in the problem, the points are in a toroid.
+	%B=[mod(2*pi,B(1,1:40401)+B(2,1:40401));mod(2*pi,B(1,1:40401)+2*B(2,1:40401))];
+	
+	Xn=mod(X+Y,2*pi);
+	Yn=mod(X+2*Y,2*pi);
+	
+	X=Xn
+	Y=Yn
+	
+	%We save the coordinates at each time so we can plot them later.
+	switch t
+		case(1)
+			X1=X;
+			Y1=Y;
+		case(5)
+			X5=X;
+			Y5=Y;
+		case(10)
+			X10=X;
+			Y10=Y;
+		case(50)
+			X50=X;
+			Y50=Y;
+		case(100)
+			X100=X;
+			Y100=Y;
+		case(500)
+			X500=X;
+			Y500=Y;	
+		case(1000)
+			X1000=X;
+			Y1000=Y;
+	endswitch
+endfor
